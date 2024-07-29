@@ -15,7 +15,8 @@ export async function PUT (req) {
     
 
     if ( "name" in data) {
-      await User.updateOne({email}, {name:data.name})
+    await User.updateOne({email}, {name:data.username})
     }
     return Response.json(true);
 }
+
