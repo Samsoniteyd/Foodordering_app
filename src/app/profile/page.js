@@ -34,6 +34,21 @@ const page = () => {
         }
     }
 
+
+    async function handleFileChange(ev) {
+        const file = ev.target.files;
+        if (files?.length === 1 ) {
+            const data = new FormData;
+            data.set('file', files[0])
+         await fetch('/api/upload', {
+            method: 'POST',
+            body: data,
+            // headers: {'content-Type': 'multipart/form-data'}
+         });
+        }
+    }
+
+
     if (status === 'loading') {
         return 'loading...';
     }
@@ -71,7 +86,7 @@ const page = () => {
 
             <Image className="rounded-lg w-full h-full mb-2" src={userImage} width={250} height={250} alt= {'avatar'} />
             <label >
-            <input type="file" className='hidden' />
+            <input type="file" className='hidden' onChange={handleFileChange} />
             <span className='block border border-gray-300 rounded-lg p-2 text-center cursor-pointer'>EDIT</span>
             </label>
             </div>
