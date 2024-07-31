@@ -86,6 +86,7 @@ async function handleFormSubmit(ev){
           <Link className="underline" href={'/login'}>Login here &raquo;</Link>
              </div>
             </div>
+            <div></div>
         </form>
     </section>
   )
