@@ -1,112 +1,73 @@
-'use client'
-import {useSession} from 'next-auth/react'
-import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+'use client';
+// import EditableImage from "@/components/layout/EditableImage";
+// import InfoBox from "@/components/layout/InfoBox";
+// import SuccessBox from "@/components/layout/SuccessBox";
+import UserForm from "@/components/layout/UserForm";
+import UserTabs from "@/components/layout/UserTabs";
+import {useSession} from "next-auth/react";
+// import Image from "next/image";
+// import Link from "next/link";
+import {redirect} from "next/navigation";
+import {useEffect, useState} from "react";
+import toast from "react-hot-toast";
 
-const page = () => {
-    const session = useSession();
-    const [userName, setUserName] = useState('');
-    const [saved, setSaved] = useState(false);
-    const [isSaving, setisSaving] = useState(false);
-    const {status} = session;
-    console.log(session)
+export default function ProfilePage() {
+  const session = useSession();
 
-    useEffect(()=> {
-        if (status === 'authenticated') {
-           setUserName(session.data.user.name);
-            }
-    }, [session, status]);
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [profileFetched, setProfileFetched] = useState(false);
+  const {status} = session;
 
-   async function handleProfileInfoUpdate(ev) {
-        ev.preventDefault(); 
-        setSaved(false);
-        setisSaving(true);
-        const response = await fetch ('api/profile', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({name: userName})
-        });
-        setisSaving(false);
-        if (response.ok) {
-           setSaved(true);
-        }
+  useEffect(() => {
+    if (status === 'authenticated') {
+      fetch('/api/profile').then(response => {
+        response.json().then(data => {
+          setUser(data);
+          setIsAdmin(data.admin);
+          setProfileFetched(true);
+        })
+      });
     }
+  }, [session, status]);
 
+  async function handleProfileInfoUpdate(ev, data) {
+    ev.preventDefault();
 
-    async function handleFileChange(ev) {
-        const file = ev.target.files;
-        if (files?.length === 1 ) {
-            const data = new FormData;
-            data.set('file', files[0])
-         await fetch('/api/upload', {
-            method: 'POST',
-            body: data,
-            // headers: {'content-Type': 'multipart/form-data'}
-         });
-        }
-    }
+    const savingPromise = new Promise(async (resolve, reject) => {
+      const response = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+      });
+      if (response.ok)
+        resolve()
+      else
+        reject();
+    });
 
+    await toast.promise(savingPromise, {
+      loading: 'Saving...',
+      success: 'Profile saved!',
+      error: 'Error',
+    });
 
-    if (status === 'loading') {
-        return 'loading...';
-    }
-    if (status === 'unauthenticated') {
-        redirect('/login');
-    }
+  }
 
-    const userImage = session.data.user.image;
+  if (status === 'loading' || !profileFetched) {
+    return 'Loading...';
+  }
 
-     
+  if (status === 'unauthenticated') {
+    return redirect('/login');
+  }
+
   return (
-   <section className="mt-8">
-    <h1 className="text-center text-primary text-primary text-4xl mb-4">
-        profile
-
-    </h1>
-    
-
-    <div className='max-w-md mx-uto'>
-    {saved && (
-        
-    <h2 className='text-center bg-green-100 p-4 rounded-lg border border-green-300'>
-        profile save
-    </h2>
-    )}
-
-    {isSaving && (
-        <h2 className='text-center bg-blue-100 p-4 rounded-lg border border-blue-300'>
-       saving......
-    </h2>
-    )}
-        <div className='flex gap-2 items-center'>
-            <div>
-                <div className='relative p-2 rounded-lg '>
-
-            <Image className="rounded-lg w-full h-full mb-2" src={userImage} width={250} height={250} alt= {'avatar'} />
-            <label >
-            <input type="file" className='hidden' onChange={handleFileChange} />
-            <span className='block border border-gray-300 rounded-lg p-2 text-center cursor-pointer'>EDIT</span>
-            </label>
-            </div>
-
-            </div>
-        </div>
-        <form className='grow' onSubmit={handleProfileInfoUpdate}>
-            <input type="text" placeholder='First and Last name'
-            value={userName} onChange={ev => setUserName(ev.target.value)} />
-         <input type="email" disabled={true} value={session.data.user.email} />
-         <button type='submit'>save</button>
-        </form>
-
-    </div>
-
-   </section>
-  )
+    <section className="mt-8">
+      <UserTabs isAdmin={isAdmin} />
+      <div className="max-w-2xl mx-auto mt-8">
+        <UserForm user={user} onSave={handleProfileInfoUpdate} />
+      </div>
+    </section>
+  );
 }
-
-export default page
-
-
-
