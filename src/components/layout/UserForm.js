@@ -1,7 +1,7 @@
 'use client';
 import AddressInputs from "@/components/layout/AddressInputs";
 import EditableImage from "@/components/layout/EditableImage";
-// import {useProfile} from "@/components/UseProfile";
+import {useProfile} from "@/components/UseProfile";
 import {useState} from "react";
 
 export default function UserForm({user,onSave}) {
@@ -72,5 +72,7 @@ export default function UserForm({user,onSave}) {
         <button type="submit">Save</button>
       </form>
     </div>
+
+    
   );
 }

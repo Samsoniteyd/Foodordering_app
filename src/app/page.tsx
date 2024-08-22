@@ -21,8 +21,8 @@ export default function Home() {
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni minima odit recusandae. Illum ipsa non repudiandae? Eum ipsam iste quos suscipit tempora? Aperiam esse fugiat inventore laboriosam officiis quam rem!
           </p>
-          <p>At consectetur delectus ducimus est facere iure molestias obcaecati quaerat vitae voluptate? Aspernatur dolor explicabo iste minus molestiae pariatur provident quibusdam saepe?</p>
-          <p>Laborum molestias neque nulla obcaecati odio quia quod reprehenderit sit vitae voluptates? Eos, tenetur.</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ratione veniam saepe beatae ducimus nesciunt totam quam nostrum corporis, voluptatem quaerat laboriosam? Soluta a sunt eius! Repellat quo rerum aliquid.</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium asperiores beatae dolorum earum nesciunt, reiciendis perspiciatis quod animi facere esse..</p>
         </div>
       </section>
       <section className="text-center my-8" id="contact">
@@ -31,8 +31,8 @@ export default function Home() {
           mainHeader={'Contact us'}
         />
         <div className="mt-8">
-          <a className="text-4xl underline text-gray-500" href="tel:+46738123123">
-            +46 738 123 123
+          <a className="text-4xl underline text-gray-500" href="tel:+2347066990913">
+            +2347066990912
           </a>
         </div>
       </section>

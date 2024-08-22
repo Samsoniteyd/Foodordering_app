@@ -22,7 +22,7 @@ export default function DeleteButton({label,onDelete}) {
               Yes,&nbsp;delete!
             </button>
           </div>
-        </div>
+        </div> 
       </div>
     );
   }

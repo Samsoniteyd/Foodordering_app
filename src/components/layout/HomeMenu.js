@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React from 'react'
 import SectionHeaders from "@/components/layout/SectionHeaders";
-// import MenuItem from "@/components/menu/MenuItem";
+import MenuItem from "@/components/menu/MenuItem";
 
 
 const HomeMenu = () => {
@@ -22,7 +22,7 @@ const HomeMenu = () => {
         mainHeader={'Our Best Sellers'} />
     </div>
     <div className="grid sm:grid-cols-3 gap-4">
-    {/* <MenuItem/> */}
+    <MenuItem/>
     </div>
   </section>
   )
