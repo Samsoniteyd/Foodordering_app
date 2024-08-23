@@ -30,11 +30,7 @@ export default function UserForm({user,onSave}) {
           <EditableImage link={image} setLink={setImage} />
         </div>
       </div>
-      <form
-        className="grow"
-        onSubmit={ev =>
-          onSave(ev, {
-            name:userName, image, phone, admin,
+      <form className="grow" onSubmit={ev => onSave(ev, {name:userName, image, phone, admin,
             streetAddress, city, country, postalCode,
           })
         }
